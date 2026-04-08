@@ -3,18 +3,27 @@ import type { Project } from "~~/types/project";
 
 const props = defineProps<{ project: Project }>();
 
+const hasProjectUrl = computed(() => Boolean(props.project.url?.trim()));
+
 const openProject = () => {
+    const projectUrl = props.project.url?.trim();
+    if (!projectUrl) {
+        return;
+    }
+
     if (!import.meta.client) {
         return;
     }
 
-    window.open(props.project.url, "_blank", "noopener,noreferrer");
+    window.open(projectUrl, "_blank", "noopener,noreferrer");
 };
 </script>
 
 <template>
     <article
         class="card"
+        :class="{ 'is-clickable': hasProjectUrl }"
+        :aria-disabled="!hasProjectUrl"
         @click="openProject"
     >
         <div class="image-wrap">
@@ -23,7 +32,7 @@ const openProject = () => {
                 :src="project.image"
                 :alt="project.title"
                 loading="lazy"
-            />
+            >
         </div>
         <div class="content">
             <h3 class="title">{{ project.title }}</h3>
@@ -47,17 +56,22 @@ const openProject = () => {
 
 <style scoped>
 .card {
+    display: flex;
+    flex-direction: column;
     background: var(--color-bg-elevated);
     border: 1px solid var(--color-border);
     border-radius: 12px;
     overflow: hidden;
-    cursor: pointer;
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
 }
 
-.card:hover {
+.card.is-clickable {
+    cursor: pointer;
+}
+
+.card.is-clickable:hover {
     transform: translateY(-3px);
     box-shadow: 0 12px 24px var(--color-shadow);
 }
@@ -76,11 +90,14 @@ const openProject = () => {
     transition: object-position 2.2s ease;
 }
 
-.card:hover .image {
+.card.is-clickable:hover .image {
     object-position: center bottom;
 }
 
 .content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     padding: 14px;
 }
 
@@ -94,6 +111,7 @@ const openProject = () => {
     color: var(--color-text-muted);
     line-height: 1.45;
     display: -webkit-box;
+    line-clamp: 4;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -104,6 +122,7 @@ const openProject = () => {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    margin-top: auto;
     color: var(--color-link);
     text-decoration: none;
     font-weight: 600;

@@ -1,13 +1,13 @@
 import type { ThemeMode } from '~~/types/theme'
 
 const THEME_KEY = 'portfolio-theme'
+const THEME_COOKIE_MAX_AGE = 60 * 60 * 24 * 365
 
-const resolveClientTheme = (): ThemeMode => {
-  const savedTheme = localStorage.getItem(THEME_KEY)
-  if (savedTheme === 'light' || savedTheme === 'dark') {
-    return savedTheme
-  }
+const normalizeTheme = (value: unknown): ThemeMode | null => {
+  return value === 'light' || value === 'dark' ? value : null
+}
 
+const resolveSystemTheme = (): ThemeMode => {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
@@ -20,24 +20,37 @@ const syncHtmlTheme = (theme: ThemeMode): void => {
 }
 
 export const useThemeMode = () => {
-  const theme = useState<ThemeMode>('theme-mode', () => 'light')
+  const themeCookie = useCookie<ThemeMode | null>(THEME_KEY, {
+    default: () => null,
+    maxAge: THEME_COOKIE_MAX_AGE,
+    sameSite: 'lax'
+  })
 
-  if (import.meta.client) {
-    theme.value = resolveClientTheme()
-    syncHtmlTheme(theme.value)
+  const theme = useState<ThemeMode>('theme-mode', () => normalizeTheme(themeCookie.value) ?? 'light')
+  const cookieTheme = normalizeTheme(themeCookie.value)
+
+  if (cookieTheme && cookieTheme !== theme.value) {
+    theme.value = cookieTheme
+  }
+
+  if (import.meta.client && cookieTheme) {
+    syncHtmlTheme(cookieTheme)
   }
 
   const setTheme = (nextTheme: ThemeMode): void => {
     theme.value = nextTheme
+    themeCookie.value = nextTheme
     syncHtmlTheme(nextTheme)
-
-    if (import.meta.client) {
-      localStorage.setItem(THEME_KEY, nextTheme)
-    }
   }
 
   const toggleTheme = (): void => {
     setTheme(theme.value === 'light' ? 'dark' : 'light')
+  }
+
+  if (import.meta.client && !cookieTheme) {
+    onMounted(() => {
+      setTheme(resolveSystemTheme())
+    })
   }
 
   return {

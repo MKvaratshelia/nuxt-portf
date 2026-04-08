@@ -12,7 +12,7 @@ model Project {
   image       String
   description String   @db.Text
   githubUrl   String   @map("github_url")
-  url         String
+  url         String?
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 

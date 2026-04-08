@@ -4,7 +4,7 @@ export type Project = {
     image: string;
     description: string;
     githubUrl: string;
-    url: string;
+    url: string | null;
     createdAt: string;
     updatedAt: string;
 };
@@ -14,5 +14,5 @@ export type ProjectPayload = {
     image: string;
     description: string;
     githubUrl: string;
-    url: string;
+    url?: string | null;
 };

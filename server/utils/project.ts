@@ -53,6 +53,37 @@ function ensureUrl(value: string, fieldName: string): string {
   }
 }
 
+function ensureOptionalUrl(
+  value: unknown,
+  fieldName: string,
+  maxLength: number
+): string | null {
+  if (value === undefined || value === null) {
+    return null
+  }
+
+  if (typeof value !== 'string') {
+    throw createError({
+      statusCode: 400,
+      statusMessage: `Поле ${fieldName} должно быть строкой`
+    })
+  }
+
+  const normalized = value.trim()
+  if (!normalized) {
+    return null
+  }
+
+  if (normalized.length > maxLength) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: `Поле ${fieldName} превышает лимит ${maxLength} символов`
+    })
+  }
+
+  return ensureUrl(normalized, fieldName)
+}
+
 export function validateProjectPayload(payload: unknown): ProjectPayload {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
     throw createError({
@@ -77,7 +108,7 @@ export function validateProjectPayload(payload: unknown): ProjectPayload {
     ensureString(source.githubUrl, 'githubUrl', MAX_GITHUB_LENGTH),
     'githubUrl'
   )
-  const url = ensureUrl(ensureString(source.url, 'url', MAX_URL_LENGTH), 'url')
+  const url = ensureOptionalUrl(source.url, 'url', MAX_URL_LENGTH)
 
   return {
     title,

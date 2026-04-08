@@ -1,4 +1,4 @@
-import { defineEventHandler } from 'h3'
+import { createError, defineEventHandler } from 'h3'
 import { getProjectIdFromParams } from '../../utils/project'
 import { prisma } from '../../utils/prisma'
 
