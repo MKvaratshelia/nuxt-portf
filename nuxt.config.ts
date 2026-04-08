@@ -1,0 +1,22 @@
+// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  compatibilityDate: '2025-07-15',
+  devtools: { enabled: true },
+  app: {
+    head: {
+      script: [
+        {
+          id: 'theme-init',
+          innerHTML: "(function(){try{var key='portfolio-theme';var saved=localStorage.getItem(key);var theme=saved==='light'||saved==='dark'?saved:(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',theme);}catch(_){document.documentElement.setAttribute('data-theme','light');}})();"
+        }
+      ]
+    }
+  },
+  css: ['normalize.css', '~/assets/css/global.css', '~/assets/css/forms.css'],
+  runtimeConfig: {
+    adminLogin: process.env.ADMIN_LOGIN,
+    adminPassword: process.env.ADMIN_PASSWORD,
+    adminSessionSecret: process.env.ADMIN_SESSION_SECRET
+  },
+  modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/icon', '@nuxt/image']
+})
