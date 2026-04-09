@@ -1,79 +1,81 @@
 :root {
-  color-scheme: light;
-  --color-bg: #f7f6fb;
-  --color-bg-elevated: #ffffff;
-  --color-bg-muted: #f0edf7;
-  --color-text: #1f2937;
-  --color-text-muted: #5b6472;
-  --color-border: #d9d4e6;
-  --color-primary: #5877c8;
-  --color-primary-hover: #4a67b4;
-  --color-on-primary: #ffffff;
-  --color-danger: #cc5b5b;
-  --color-danger-hover: #b34f4f;
-  --color-link: #4f69b6;
-  --color-shadow: rgba(30, 41, 59, 0.08);
-  --focus-ring: 0 0 0 3px rgba(88, 119, 200, 0.24);
-  --color-skeleton-base: #ece8f4;
-  --color-skeleton-shine: #f7f4fc;
+    color-scheme: light;
+    --color-bg: #f7f6fb;
+    --color-bg-elevated: #ffffff;
+    --color-bg-muted: #f0edf7;
+    --color-text: #1f2937;
+    --color-text-muted: #5b6472;
+    --color-border: #d9d4e6;
+    --color-primary: #5877c8;
+    --color-primary-hover: #4a67b4;
+    --color-on-primary: #ffffff;
+    --color-danger: #cc5b5b;
+    --color-danger-hover: #b34f4f;
+    --color-link: #4f69b6;
+    --color-shadow: rgba(30, 41, 59, 0.08);
+    --focus-ring: 0 0 0 3px rgba(88, 119, 200, 0.24);
+    --color-skeleton-base: #ece8f4;
+    --color-skeleton-shine: #f7f4fc;
 }
 
 html[data-theme="dark"] {
-  color-scheme: dark;
-  --color-bg: #171b26;
-  --color-bg-elevated: #202637;
-  --color-bg-muted: #2a3043;
-  --color-text: #e7e7ee;
-  --color-text-muted: #bac0cf;
-  --color-border: #3a4258;
-  --color-primary: #8fa6df;
-  --color-primary-hover: #a6b9e8;
-  --color-on-primary: #ffffff;
-  --color-danger: #d48a8a;
-  --color-danger-hover: #e2a0a0;
-  --color-link: #a8b9e7;
-  --color-shadow: rgba(8, 11, 20, 0.36);
-  --focus-ring: 0 0 0 3px rgba(166, 185, 232, 0.32);
-  --color-skeleton-base: #30374b;
-  --color-skeleton-shine: #3a4258;
+    color-scheme: dark;
+    --color-bg: #171b26;
+    --color-bg-elevated: #202637;
+    --color-bg-muted: #2a3043;
+    --color-text: #e7e7ee;
+    --color-text-muted: #bac0cf;
+    --color-border: #3a4258;
+    --color-primary: #8fa6df;
+    --color-primary-hover: #a6b9e8;
+    --color-on-primary: #ffffff;
+    --color-danger: #d48a8a;
+    --color-danger-hover: #e2a0a0;
+    --color-link: #a8b9e7;
+    --color-shadow: rgba(8, 11, 20, 0.36);
+    --focus-ring: 0 0 0 3px rgba(166, 185, 232, 0.32);
+    --color-skeleton-base: #30374b;
+    --color-skeleton-shine: #3a4258;
 }
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html,
 body,
 #__nuxt {
-  min-height: 100%;
+    min-height: 100%;
 }
 
 body {
-  margin: 0;
-  font-family: Inter, Arial, sans-serif;
-  background: var(--color-bg);
-  color: var(--color-text);
-  line-height: 1.5;
-  text-rendering: optimizeLegibility;
+    margin: 0;
+    font-family: Inter, Arial, sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.5;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 a {
-  color: var(--color-link);
+    color: var(--color-link);
 }
 
 button,
 input,
 textarea {
-  font: inherit;
-  color: inherit;
+    font: inherit;
+    color: inherit;
 }
 
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 a:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
+    outline: none;
+    box-shadow: var(--focus-ring);
 }

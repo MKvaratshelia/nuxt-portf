@@ -13,9 +13,6 @@ const store = useProjectsStore();
 await store.fetchProjects();
 
 const skeletonCount = 6;
-const handleRefresh = () => {
-    void store.fetchProjects();
-};
 </script>
 
 <template>
@@ -47,14 +44,6 @@ const handleRefresh = () => {
                 :project="project"
             />
         </div>
-
-        <button
-            class="reload"
-            type="button"
-            @click="handleRefresh"
-        >
-            Обновить
-        </button>
     </section>
 </template>
 
@@ -82,11 +71,6 @@ h1 {
     padding: 8px 12px;
     border-radius: 8px;
     cursor: pointer;
-}
-
-.reload:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
 }
 
 @media (max-width: 640px) {
