@@ -1,12 +1,6 @@
 <script setup lang="ts">
 const { theme, toggleTheme } = useThemeMode();
 
-useHead(() => ({
-    htmlAttrs: {
-        "data-theme": theme.value,
-    },
-}));
-
 const themeButtonLabel = computed(() =>
     theme.value === "dark" ? "Переключить на светлую тему" : "Переключить на темную тему",
 );
@@ -53,7 +47,7 @@ const themeButtonLabel = computed(() =>
                         href="https://github.com/MKvaratshelia"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="header-icon-link"
+                        class="nav-icon-btn"
                         aria-label="GitHub"
                         title="GitHub"
                     >
@@ -64,7 +58,7 @@ const themeButtonLabel = computed(() =>
                     </a>
                     <button
                         type="button"
-                        class="theme-toggle"
+                        class="nav-icon-btn"
                         :aria-label="themeButtonLabel"
                         :title="themeButtonLabel"
                         @click="toggleTheme"
@@ -139,16 +133,16 @@ const themeButtonLabel = computed(() =>
     color: var(--color-primary);
 }
 
-.header-icon-link {
+.nav-icon-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     border: 1px solid var(--color-border);
     background: var(--color-bg);
     color: var(--color-text);
     border-radius: 999px;
     width: 38px;
     height: 38px;
-    justify-content: center;
     padding: 0;
     cursor: pointer;
     transition:
@@ -157,30 +151,7 @@ const themeButtonLabel = computed(() =>
         background-color 0.2s ease;
 }
 
-.header-icon-link:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-}
-
-.theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid var(--color-border);
-    background: var(--color-bg);
-    color: var(--color-text);
-    border-radius: 999px;
-    width: 38px;
-    height: 38px;
-    justify-content: center;
-    padding: 0;
-    cursor: pointer;
-    transition:
-        border-color 0.2s ease,
-        color 0.2s ease,
-        background-color 0.2s ease;
-}
-
-.theme-toggle:hover {
+.nav-icon-btn:hover {
     border-color: var(--color-primary);
     color: var(--color-primary);
 }

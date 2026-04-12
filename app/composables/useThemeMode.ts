@@ -37,6 +37,10 @@ export const useThemeMode = () => {
     syncHtmlTheme(cookieTheme)
   }
 
+  useHead(() => ({
+    htmlAttrs: { 'data-theme': theme.value }
+  }))
+
   const setTheme = (nextTheme: ThemeMode): void => {
     theme.value = nextTheme
     themeCookie.value = nextTheme

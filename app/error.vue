@@ -5,13 +5,7 @@ const props = defineProps<{
     error: NuxtError;
 }>();
 
-const { theme } = useThemeMode();
-
-useHead(() => ({
-    htmlAttrs: {
-        "data-theme": theme.value,
-    },
-}));
+useThemeMode();
 
 const isNotFound = computed(() => props.error?.status === 404);
 
