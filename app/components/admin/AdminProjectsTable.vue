@@ -25,15 +25,15 @@ const emit = defineEmits<{
       </thead>
       <tbody>
         <tr v-for="project in projects" :key="project.id">
-          <td>{{ project.id }}</td>
-          <td>{{ project.title }}</td>
-          <td>
+          <td data-label="ID">{{ project.id }}</td>
+          <td data-label="Название">{{ project.title }}</td>
+          <td data-label="GitHub">
             <a :href="project.githubUrl" target="_blank" rel="noopener noreferrer" class="table-link">
               <Icon name="simple-icons:github" size="14" />
               <span>GitHub</span>
             </a>
           </td>
-          <td>
+          <td data-label="URL">
             <a
               v-if="project.url"
               :href="project.url"
@@ -46,7 +46,7 @@ const emit = defineEmits<{
             </a>
             <span v-else class="table-empty">—</span>
           </td>
-          <td class="row-actions">
+          <td class="row-actions" data-label="Действия">
             <button
               type="button"
               class="admin-btn admin-btn-ghost icon-button"
@@ -94,6 +94,10 @@ const emit = defineEmits<{
   overflow-wrap: anywhere;
 }
 
+.table td > * {
+  min-width: 0;
+}
+
 .row-actions {
   display: flex;
   flex-wrap: wrap;
@@ -125,5 +129,58 @@ const emit = defineEmits<{
 .danger:hover {
   border-color: var(--color-danger-hover);
   background: var(--color-danger-hover);
+}
+
+@media (max-width: 767px) {
+  .table {
+    min-width: 0;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table,
+  .table tbody {
+    display: block;
+  }
+
+  .table tr {
+    display: grid;
+    gap: 12px;
+    padding: 14px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .table tr:last-child {
+    border-bottom: none;
+  }
+
+  .table td {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0;
+    border-bottom: none;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .row-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .row-actions .admin-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 </style>
