@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Project } from "~~/types/project";
 
+const isImageLoaded = ref<boolean>(false);
 const props = defineProps<{ project: Project }>();
 
 const hasProjectUrl = computed(() => Boolean(props.project.url?.trim()));
@@ -17,6 +18,14 @@ const openProject = () => {
 
     window.open(projectUrl, "_blank", "noopener,noreferrer");
 };
+
+watch(
+    () => props.project.image,
+    () => {
+        isImageLoaded.value = false;
+    },
+    { immediate: true },
+);
 </script>
 
 <template>
@@ -27,11 +36,21 @@ const openProject = () => {
         @click="openProject"
     >
         <div class="image-wrap">
-            <img
+            <div
+                v-if="!isImageLoaded"
+                class="image-skeleton"
+                aria-hidden="true"
+            />
+            <NuxtImg
+                width="100%"
+                height="100%"
                 class="image"
+                :class="{ 'is-loaded': isImageLoaded }"
                 :src="project.image"
                 :alt="project.title"
                 loading="lazy"
+                @load="isImageLoaded = true"
+                @error="isImageLoaded = true"
             />
         </div>
         <div class="content">
@@ -77,26 +96,35 @@ const openProject = () => {
 }
 
 .image-wrap {
+    position: relative;
     height: 240px;
     width: 100%;
     overflow: hidden;
     background: var(--color-bg-muted);
 }
-
+.image-skeleton {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        var(--color-bg-muted) 25%,
+        var(--color-bg-elevated) 50%,
+        var(--color-bg-muted) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.2s infinite linear;
+}
 .image {
-    /* width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    transition: object-position 2.2s ease; */
     width: 100%;
     height: 100%;
-    object-position: 0 0;
     object-fit: cover;
-    /* border-top-left-radius: 10px;
-    border-top-right-radius: 10px; */
-    /* cursor: pointer; */
-    transition: object-position 5s ease;
+    opacity: 0;
+    transition:
+        opacity 0.2s ease,
+        object-position 5s ease;
+}
+.image.is-loaded {
+    opacity: 1;
 }
 
 .image:hover {
@@ -141,5 +169,14 @@ const openProject = () => {
     color: var(--color-link);
     text-decoration: none;
     font-weight: 600;
+}
+
+@keyframes skeleton-loading {
+    from {
+        background-position: 200% 0;
+    }
+    to {
+        background-position: -200% 0;
+    }
 }
 </style>

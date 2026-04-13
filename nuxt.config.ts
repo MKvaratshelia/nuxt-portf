@@ -7,6 +7,9 @@ export default defineNuxtConfig({
     },
     app: {
         head: {
+            htmlAttrs: {
+                lang: "ru",
+            },
             script: [
                 {
                     id: "theme-init",
