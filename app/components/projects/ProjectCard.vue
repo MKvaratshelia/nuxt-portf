@@ -1,28 +1,42 @@
 <script setup lang="ts">
 import type { Project } from "~~/types/project";
 
-const isImageLoaded = ref<boolean>(false);
 const props = defineProps<{ project: Project }>();
 
+const isImageLoaded = ref(false);
+const imageRef = ref<HTMLImageElement | null>(null);
 const hasProjectUrl = computed(() => Boolean(props.project.url?.trim()));
-
 const openProject = () => {
     const projectUrl = props.project.url?.trim();
-    if (!projectUrl) {
+    if (!projectUrl || !import.meta.client) {
         return;
     }
-
-    if (!import.meta.client) {
-        return;
-    }
-
     window.open(projectUrl, "_blank", "noopener,noreferrer");
 };
-
+const syncImageState = () => {
+    const image = imageRef.value;
+    if (!image) {
+        return;
+    }
+    if (image.complete && image.naturalWidth > 0) {
+        isImageLoaded.value = true;
+    }
+};
+const handleImageLoad = () => {
+    isImageLoaded.value = true;
+};
+const handleImageError = () => {
+    isImageLoaded.value = true;
+};
+onMounted(() => {
+    syncImageState();
+});
 watch(
     () => props.project.image,
-    () => {
+    async () => {
         isImageLoaded.value = false;
+        await nextTick();
+        syncImageState();
     },
     { immediate: true },
 );
@@ -42,12 +56,13 @@ watch(
                 aria-hidden="true"
             />
             <img
+                ref="imageRef"
                 class="image"
                 :class="{ 'is-loaded': isImageLoaded }"
                 :src="project.image"
                 :alt="project.title"
-                @load="isImageLoaded = true"
-                @error="isImageLoaded = true"
+                @load="handleImageLoad"
+                @error="handleImageError"
             />
         </div>
         <div class="content">
