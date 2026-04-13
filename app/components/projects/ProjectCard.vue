@@ -32,7 +32,7 @@ const openProject = () => {
                 :src="project.image"
                 :alt="project.title"
                 loading="lazy"
-            >
+            />
         </div>
         <div class="content">
             <h3 class="title">{{ project.title }}</h3>
@@ -77,21 +77,35 @@ const openProject = () => {
 }
 
 .image-wrap {
-    height: 180px;
+    height: 240px;
+    width: 100%;
     overflow: hidden;
     background: var(--color-bg-muted);
 }
 
 .image {
-    width: 100%;
+    /* width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center top;
-    transition: object-position 2.2s ease;
+    transition: object-position 2.2s ease; */
+    width: 100%;
+    height: 100%;
+    object-position: 0 0;
+    object-fit: cover;
+    /* border-top-left-radius: 10px;
+    border-top-right-radius: 10px; */
+    cursor: pointer;
+    transition: object-position 5s ease;
+}
+
+.image:hover {
+    object-position: 0 100%;
 }
 
 .card.is-clickable:hover .image {
-    object-position: center bottom;
+    /* object-position: center bottom; */
+    /* object-position: 0 100%; */
 }
 
 .content {

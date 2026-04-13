@@ -1,10 +1,7 @@
-import { defineEventHandler, readBody } from 'h3'
+import { createError, defineEventHandler, readBody } from 'h3'
 import { requireAdmin } from '../../../utils/auth'
-import {
-  assertProjectExists,
-  getProjectIdFromParams,
-  validateProjectPayload
-} from '../../../utils/project'
+import { deleteProjectImageByUrl } from '../../../utils/blob'
+import { getProjectIdFromParams, validateProjectPayload } from '../../../utils/project'
 import { prisma } from '../../../utils/prisma'
 
 export default defineEventHandler(async (event) => {
@@ -14,10 +11,33 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const payload = validateProjectPayload(body)
 
-  await assertProjectExists(id)
+  const currentProject = await prisma.project.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      image: true
+    }
+  })
 
-  return prisma.project.update({
+  if (!currentProject) {
+    throw createError({
+      statusCode: 404,
+      statusMessage: 'Проект не найден'
+    })
+  }
+
+  const updatedProject = await prisma.project.update({
     where: { id },
     data: payload
   })
+
+  if (currentProject.image !== updatedProject.image) {
+    try {
+      await deleteProjectImageByUrl(event, currentProject.image)
+    } catch (error) {
+      console.error('Не удалось удалить старое изображение проекта из Blob', error)
+    }
+  }
+
+  return updatedProject
 })

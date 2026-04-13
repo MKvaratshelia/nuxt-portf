@@ -3,7 +3,7 @@ import type { ProjectPayload } from '~~/types/project'
 import { prisma } from './prisma'
 
 const MAX_TITLE_LENGTH = 120
-const MAX_IMAGE_LENGTH = 2048
+const MAX_IMAGE_LENGTH = 4096
 const MAX_GITHUB_LENGTH = 2048
 const MAX_URL_LENGTH = 2048
 const MAX_DESCRIPTION_LENGTH = 2000
@@ -53,6 +53,13 @@ function ensureUrl(value: string, fieldName: string): string {
   }
 }
 
+function ensureProjectImage(value: unknown): string {
+  return ensureUrl(
+    ensureString(value, 'image', MAX_IMAGE_LENGTH),
+    'image'
+  )
+}
+
 function ensureOptionalUrl(
   value: unknown,
   fieldName: string,
@@ -95,10 +102,7 @@ export function validateProjectPayload(payload: unknown): ProjectPayload {
   const source = payload as Record<string, unknown>
 
   const title = ensureString(source.title, 'title', MAX_TITLE_LENGTH)
-  const image = ensureUrl(
-    ensureString(source.image, 'image', MAX_IMAGE_LENGTH),
-    'image'
-  )
+  const image = ensureProjectImage(source.image)
   const description = ensureString(
     source.description,
     'description',

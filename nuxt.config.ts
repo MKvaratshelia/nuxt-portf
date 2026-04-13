@@ -21,6 +21,7 @@ export default defineNuxtConfig({
         adminLogin: process.env.ADMIN_LOGIN,
         adminPassword: process.env.ADMIN_PASSWORD,
         adminSessionSecret: process.env.ADMIN_SESSION_SECRET,
+        blobReadWriteToken: process.env.BLOB_READ_WRITE_TOKEN,
     },
     modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon", "@nuxt/image", "@pinia/nuxt"],
 });
