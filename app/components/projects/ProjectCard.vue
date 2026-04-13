@@ -95,7 +95,7 @@ const openProject = () => {
     object-fit: cover;
     /* border-top-left-radius: 10px;
     border-top-right-radius: 10px; */
-    cursor: pointer;
+    /* cursor: pointer; */
     transition: object-position 5s ease;
 }
 
@@ -106,6 +106,7 @@ const openProject = () => {
 .card.is-clickable:hover .image {
     /* object-position: center bottom; */
     /* object-position: 0 100%; */
+    cursor: pointer;
 }
 
 .content {

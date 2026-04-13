@@ -80,7 +80,7 @@ const themeButtonLabel = computed(() =>
 <style scoped>
 .app {
     margin: 0 auto;
-    max-width: 1280px;
+    max-width: 100%;
     min-height: 100vh;
     background: var(--color-bg);
     color: var(--color-text);
