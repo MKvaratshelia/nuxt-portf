@@ -41,14 +41,11 @@ watch(
                 class="image-skeleton"
                 aria-hidden="true"
             />
-            <NuxtImg
-                width="100%"
-                height="100%"
+            <img
                 class="image"
                 :class="{ 'is-loaded': isImageLoaded }"
                 :src="project.image"
                 :alt="project.title"
-                loading="lazy"
                 @load="isImageLoaded = true"
                 @error="isImageLoaded = true"
             />
