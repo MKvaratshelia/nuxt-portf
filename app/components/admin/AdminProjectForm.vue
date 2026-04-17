@@ -117,6 +117,7 @@ const saveProject = async () => {
             Название
             <input
                 v-model="form.title"
+                name="title"
                 class="admin-form-control"
                 type="text"
                 required
@@ -126,6 +127,7 @@ const saveProject = async () => {
             Изображение проекта
             <input
                 ref="imageInput"
+                name="image"
                 class="admin-form-control"
                 type="file"
                 accept="image/png,image/jpeg,image/webp"
@@ -153,12 +155,13 @@ const saveProject = async () => {
             <img
                 :src="form.image"
                 :alt="form.title || 'Превью проекта'"
-            >
+            />
         </div>
         <label class="admin-form-label">
             Описание
             <textarea
                 v-model="form.description"
+                name="description"
                 class="admin-form-control"
                 required
                 rows="4"
@@ -168,6 +171,7 @@ const saveProject = async () => {
             GitHub URL
             <input
                 v-model="form.githubUrl"
+                name="githubUrl"
                 class="admin-form-control"
                 type="url"
                 required
@@ -177,6 +181,7 @@ const saveProject = async () => {
             URL проекта
             <input
                 v-model="form.url"
+                name="url"
                 class="admin-form-control"
                 type="url"
             />
@@ -193,7 +198,15 @@ const saveProject = async () => {
                 class="admin-btn"
                 :disabled="saving || uploadingImage || !form.image"
             >
-                {{ uploadingImage ? "Загружаем изображение..." : saving ? "Сохраняем..." : editingId ? "Обновить" : "Добавить" }}
+                {{
+                    uploadingImage
+                        ? "Загружаем изображение..."
+                        : saving
+                          ? "Сохраняем..."
+                          : editingId
+                            ? "Обновить"
+                            : "Добавить"
+                }}
             </button>
             <button
                 v-if="editingId"
@@ -225,6 +238,11 @@ const saveProject = async () => {
     margin: -6px 0 4px;
     color: var(--color-text-muted);
     font-size: 14px;
+}
+
+.admin-form-control[type="file"] {
+    max-width: 100%;
+    min-width: 0;
 }
 
 .image-preview {

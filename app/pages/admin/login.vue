@@ -53,6 +53,7 @@ const submit = async () => {
                 Логин
                 <input
                     v-model="form.login"
+                    name="login"
                     class="admin-form-control"
                     type="text"
                     required
@@ -63,6 +64,7 @@ const submit = async () => {
                 <div class="password-field">
                     <input
                         v-model="form.password"
+                        name="password"
                         class="password-input"
                         :type="showPassword ? 'text' : 'password'"
                         required
